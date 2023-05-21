@@ -6,30 +6,32 @@ import fetchBooksData from "./fetchBooksData";
 import axios from "axios";
 
 function App() {
-    const [books, setBooks] = useState([]);
-    const createBook = async(book) => {
-        try {
-            await axios.post("http://localhost:3001/books", book)
-            setBooks((prev) => [...prev, book]);
-        } catch (error) {
-            console.log("error", error.message)   
-        } 
-    };
-    useEffect(()=>{
-        fetchBooks()
-    },[])
-
-    async function fetchBooks(){
-        const result = await fetchBooksData("http://localhost:3001/books");
-        setBooks(result)
+  const [books, setBooks] = useState([]);
+  const createBook = async (bookName) => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/books", {
+        name: bookName,
+      });
+      setBooks((prev) => [...prev, data]);
+    } catch (error) {
+      console.log("error", error.message);
     }
-  
-    return (
-        <BookContext.Provider value={[books, setBooks]}>
-            <BookList />
-            <AddBook onSubmit={createBook} />
-        </BookContext.Provider>
-    );
+  };
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  async function fetchBooks() {
+    const result = await fetchBooksData("http://localhost:3001/books");
+    setBooks(result);
+  }
+
+  return (
+    <BookContext.Provider value={[books, setBooks]}>
+      <BookList />
+      <AddBook onSubmit={createBook} />
+    </BookContext.Provider>
+  );
 }
 
 export default App;

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 const AddBook = ({ onSubmit }) => {
     const [bookName, setBookName] = useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit({ id: uuidv4(), name: bookName });
+        onSubmit( bookName);
         setBookName("");
     };
     return (

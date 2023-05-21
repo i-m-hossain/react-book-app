@@ -1,0 +1,23 @@
+### get all books
+GET http://localhost:3001/books HTTP/1.1
+Content-Type: application/json
+
+### book create request
+POST  http://localhost:3001/books HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Hobbit"
+}
+
+### book update request
+PUT http://localhost:3001/books/11 HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "hobbit-updated"
+}
+
+### book delete request
+DELETE  http://localhost:3001/books/8 HTTP/1.1
+Content-Type: application/json
