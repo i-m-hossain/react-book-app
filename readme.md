@@ -4,7 +4,7 @@ This is a basic react app with CRUD operation features. Although it's only perfo
 
 # How to run
 
-    ```
-        Frontend: npm ran dev
+    
+        Frontend: npm run dev
         Server: npm run server
-    ```
+    
