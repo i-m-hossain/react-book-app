@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import PropTypes from 'prop-types';
+import { useState } from "react";
 import EditBook from "./EditBook";
 
 import useBookContext from "../hooks/useBookContext";
@@ -31,3 +32,9 @@ const ShowBook = ({ book }) => {
 };
 
 export default ShowBook;
+ShowBook.propTypes = {
+  book: PropTypes.exact({
+    id: PropTypes.number,
+    name: PropTypes.string
+  })
+};

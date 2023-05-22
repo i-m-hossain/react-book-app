@@ -1,18 +1,19 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { BookContext } from "../contexts/BookContext";
-
+import PropTypes from "prop-types";
 function Provider({ children }) {
   const [books, setBooks] = useState([]);
-
-  const fetchBooks = async () => {
+  
+  const fetchBooks = useCallback(async () => {
     try {
       const { data } = await axios.get("http://localhost:3001/books");
       setBooks(data);
+      
     } catch (error) {
-      console.log("error",error)
+      console.log('error', error)
     }
-  };
+  }, []);
 
   const createBook = async (bookName) => {
     try {
@@ -62,3 +63,6 @@ function Provider({ children }) {
 }
 
 export default Provider;
+Provider.propTypes = {
+  children: PropTypes.any,
+};

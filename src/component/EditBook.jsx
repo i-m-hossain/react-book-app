@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import PropTypes from 'prop-types';
+import  { useContext, useState } from "react";
 import { BookContext } from "../contexts/BookContext";
 
-const EditBook = ({ book, onSubmit  }) => {
+const EditBook = ({ book, onSubmit }) => {
   const { hanldeUpdateById } = useContext(BookContext);
   const [updatedBookName, setUpdatedBookName] = useState(book.name);
 
@@ -23,3 +24,10 @@ const EditBook = ({ book, onSubmit  }) => {
 };
 
 export default EditBook;
+EditBook.propTypes = {
+  book: PropTypes.exact({
+    id: PropTypes.number,
+    name: PropTypes.string
+  }),
+  onSubmit: PropTypes.func.isRequired
+}
