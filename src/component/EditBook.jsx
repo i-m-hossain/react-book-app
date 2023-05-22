@@ -1,28 +1,17 @@
 import React, { useContext, useState } from "react";
-import { BookContext } from "../BookContext";
-import axios from "axios";
+import { BookContext } from "../contexts/BookContext";
 
-const EditBook = ({ book, setIsEdit }) => {
-  const [books, setBooks] = useContext(BookContext);
+const EditBook = ({ book, onSubmit  }) => {
+  const { hanldeUpdateById } = useContext(BookContext);
   const [updatedBookName, setUpdatedBookName] = useState(book.name);
-  const handleUpdate = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put(`http://localhost:3001/books/${book.id}`, {
-        id: book.id,
-        name: updatedBookName,
-      });
-      const updatedBooks = books.map((el) =>
-        el.id === book.id ? { ...el, name: updatedBookName } : el
-      ); //brand new array
-      setBooks(updatedBooks);
-      setIsEdit(false);
-    } catch (error) {
-        console.log("error", error)
-    }
+    await hanldeUpdateById(book.id, onSubmit, updatedBookName);
   };
+
   return (
-    <form className="edit-book-container" onSubmit={handleUpdate}>
+    <form className="edit-book-container" onSubmit={handleSubmit}>
       <input
         type="text"
         value={updatedBookName}

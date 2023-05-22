@@ -1,30 +1,28 @@
-import React, { useContext, useState } from "react";
-import { BookContext } from "../BookContext";
+import React, { useState } from "react";
 import EditBook from "./EditBook";
-import axios from "axios";
+
+import useBookContext from "../hooks/useBookContext";
 
 const ShowBook = ({ book }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [books, setBooks] = useContext(BookContext);
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3001/books/${book.id}`);
-      const foundBook = books.find((x) => x.id === book.id);
-      const filterBooks = books.filter((book) => book.id !== foundBook.id);
-      setBooks(filterBooks);
-    } catch (error) {
-      console.log("error", error);
-    }
+  const { handleDeleteById } = useBookContext();
+  const handleEdit = () => {
+    setIsEdit((prev) => !prev);
   };
-
+  const handleDelete = () => {
+    handleDeleteById(book.id);
+  };
+  const handleSubmit = () => {
+    setIsEdit(false);
+  };
   return (
     <div className="book-container">
       <div>
-        <button onClick={() => setIsEdit((prev) => !prev)}>edit</button>
+        <button onClick={handleEdit}>edit</button>
         <button onClick={handleDelete}>delete</button>
       </div>
       {isEdit ? (
-        <EditBook book={book} setIsEdit={setIsEdit} />
+        <EditBook book={book} onSubmit={handleSubmit} />
       ) : (
         <h3>{book.name}</h3>
       )}

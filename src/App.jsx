@@ -1,36 +1,19 @@
-import { useEffect, useState } from "react";
-import { BookContext } from "./BookContext";
 import AddBook from "./component/AddBook";
 import BookList from "./component/BookList";
-import fetchBooksData from "./fetchBooksData";
-import axios from "axios";
+import { useContext, useEffect } from "react";
+import { BookContext } from "./contexts/BookContext";
 
 function App() {
-  const [books, setBooks] = useState([]);
-  const createBook = async (bookName) => {
-    try {
-      const { data } = await axios.post("http://localhost:3001/books", {
-        name: bookName,
-      });
-      setBooks((prev) => [...prev, data]);
-    } catch (error) {
-      console.log("error", error.message);
-    }
-  };
+  const { fetchBooks } = useContext(BookContext);
   useEffect(() => {
     fetchBooks();
   }, []);
-
-  async function fetchBooks() {
-    const result = await fetchBooksData("http://localhost:3001/books");
-    setBooks(result);
-  }
-
   return (
-    <BookContext.Provider value={[books, setBooks]}>
+    <>
+      <h1>Reading list</h1>
       <BookList />
-      <AddBook onSubmit={createBook} />
-    </BookContext.Provider>
+      <AddBook />
+    </>
   );
 }
 
